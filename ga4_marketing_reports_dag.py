@@ -33,26 +33,44 @@ default_args = {
 # DAG definition
 # ---------------------------------------------------------------------------
 with DAG(
-    dag_id="ga4_marketing_reports_rebuild_slice_hourly",
+    dag_id="ga4_marketing_reports_append_slice_hourly",
     default_args=default_args,
     schedule_interval="0 * * * *",  # every hour at :00
     catchup=False,  # start from “now” going forward
     max_active_runs=1,
-    tags=["ga4", "marketing", "reports", "partition-rebuild"],
+    tags=["ga4", "marketing", "reports", "partition-append"],
     # Make Airflow/Jinja look in sql_queries for template files
     template_searchpath=[str(SQL_QUERIES_PATH)],
 ) as dag:
 
     start = EmptyOperator(task_id="start")
+    
+    # -----------------------------------------------------------------------
+    # 1) GA4 Data Clean Table – append the daily slice
+    #    Uses sql_queries/ga4_clean.sql
+    # -----------------------------------------------------------------------
+    append_ga4_clean = BigQueryInsertJobOperator(
+        task_id="append_ga4_clean",
+        gcp_conn_id="google_cloud_default",
+        location="US", 
+        configuration={
+            "query": {
+                # The SQL file should contain the full CREATE OR REPLACE TABLE
+                # statement and can reference {{ ds_nodash }} etc. if needed.
+                "query": "{% include 'ga4_clean.sql' %}",
+                "useLegacySql": False,
+            }
+        },
+    )
 
     # -----------------------------------------------------------------------
-    # 1) Core Web & Performance – rebuild the daily slice
+    # 2) Core Web & Performance – append the daily slice
     #    Uses sql_queries/core_web_performance.sql
     # -----------------------------------------------------------------------
-    rebuild_core_web = BigQueryInsertJobOperator(
-        task_id="rebuild_core_web_performance",
+    append_core_web = BigQueryInsertJobOperator(
+        task_id="append_core_web_performance",
         gcp_conn_id="google_cloud_default",
-        location="US",  # change if you’re in EU, etc.
+        location="US", 
         configuration={
             "query": {
                 # The SQL file should contain the full CREATE OR REPLACE TABLE
@@ -63,28 +81,13 @@ with DAG(
         },
     )
 
-    # -----------------------------------------------------------------------
-    # 2) User Journey & Cohorts – rebuild the daily slice
-    #    Uses sql_queries/user_journey_analysis.sql
-    # -----------------------------------------------------------------------
-    rebuild_user_journey = BigQueryInsertJobOperator(
-        task_id="rebuild_user_journey_cohorts",
-        gcp_conn_id="google_cloud_default",
-        location="US",
-        configuration={
-            "query": {
-                "query": "{% include 'user_journey_analysis.sql' %}",
-                "useLegacySql": False,
-            }
-        },
-    )
 
     # -----------------------------------------------------------------------
-    # 3) Marketing & Acquisition – rebuild the daily slice
+    # 4) Marketing & Acquisition – append the daily slice
     #    Uses sql_queries/session_acquisition.sql
     # -----------------------------------------------------------------------
-    rebuild_marketing_acq = BigQueryInsertJobOperator(
-        task_id="rebuild_marketing_acquisition",
+    append_session_acq = BigQueryInsertJobOperator(
+        task_id="append_marketing_acquisition",
         gcp_conn_id="google_cloud_default",
         location="US",
         configuration={
@@ -95,21 +98,11 @@ with DAG(
         },
     )
 
-    # -----------------------------------------------------------------------
-    # 4) Funnel / Page-level performance – rebuild the daily slice
-    #    Uses sql_queries/page_level_performance.sql
-    # -----------------------------------------------------------------------
-    rebuild_funnel = BigQueryInsertJobOperator(
-        task_id="rebuild_funnel_performance",
-        gcp_conn_id="google_cloud_default",
-        location="US",
-        configuration={
-            "query": {
-                "query": "{% include 'page_level_performance.sql' %}",
-                "useLegacySql": False,
-            }
-        },
-    )
 
-    # Run all report rebuilds in parallel after start
-    start >> [rebuild_core_web, rebuild_user_journey, rebuild_marketing_acq, rebuild_funnel]
+    # Run all report appends in parallel after start
+    start >> append_ga4_clean 
+    append_ga4_clean  >> append_core_web 
+    append_ga4_clean  >> append_session_acq 
+    
+
+

@@ -1,0 +1,50 @@
+[
+  {
+    "name": "event_date",
+    "type": "DATE",
+    "mode": "NULLABLE",
+    "description": "Date of the session (parsed from GA4 event_date)"
+  },
+  {
+    "name": "users",
+    "type": "INTEGER",
+    "mode": "NULLABLE",
+    "description": "Number of distinct users with at least one session on the given date"
+  },
+  {
+    "name": "sessions",
+    "type": "INTEGER",
+    "mode": "NULLABLE",
+    "description": "Total number of sessions on the given date"
+  },
+  {
+    "name": "engaged_sessions",
+    "type": "INTEGER",
+    "mode": "NULLABLE",
+    "description": "Number of sessions with at least one user_engagement event"
+  },
+  {
+    "name": "engaged_session_rate",
+    "type": "FLOAT",
+    "mode": "NULLABLE",
+    "description": "Ratio of engaged sessions to total sessions"
+  },
+  {
+    "name": "avg_engagement_time_sec_per_session",
+    "type": "FLOAT",
+    "mode": "NULLABLE",
+    "description": "Average engagement time per session in seconds"
+  },
+  {
+    "name": "total_conversions",
+    "type": "INTEGER",
+    "mode": "NULLABLE",
+    "description": "Total number of conversion events on the given date"
+  },
+  {
+    "name": "conversions_per_session",
+    "type": "FLOAT",
+    "mode": "NULLABLE",
+    "description": "Average number of conversions per session"
+  }
+]

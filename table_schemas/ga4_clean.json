@@ -1,0 +1,140 @@
+[
+  {
+    "name": "event_date",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "The date of the event in YYYYMMDD format"
+  },
+  {
+    "name": "event_timestamp",
+    "type": "TIMESTAMP",
+    "mode": "NULLABLE",
+    "description": "Event timestamp in microseconds"
+  },
+  {
+    "name": "event_name",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Name of the GA4 event"
+  },
+  {
+    "name": "user_pseudo_id",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Anonymous GA4 user identifier"
+  },
+  {
+    "name": "user_id",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Authenticated user ID if provided"
+  },
+  {
+    "name": "user_source",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "First-touch traffic source"
+  },
+  {
+    "name": "user_medium",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "First-touch traffic medium"
+  },
+  {
+    "name": "user_campaign",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "First-touch traffic campaign name"
+  },
+  {
+    "name": "country",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Country derived from IP/geo lookup"
+  },
+  {
+    "name": "region",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Region or state from geo lookup"
+  },
+  {
+    "name": "city",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "City derived from geo lookup"
+  },
+  {
+    "name": "device_category",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Device category (mobile, desktop, tablet)"
+  },
+  {
+    "name": "device_os",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Operating system"
+  },
+  {
+    "name": "device_browser",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Browser name"
+  },
+  {
+    "name": "page_location",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Full page URL from event_params"
+  },
+  {
+    "name": "page_referrer",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Referring URL"
+  },
+  {
+    "name": "page_title",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Page title"
+  },
+  {
+    "name": "session_source",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Session-level traffic source"
+  },
+  {
+    "name": "session_medium",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Session-level traffic medium"
+  },
+  {
+    "name": "session_campaign",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Session-level campaign"
+  },
+  {
+    "name": "session_id",
+    "type": "INTEGER",
+    "mode": "NULLABLE",
+    "description": "GA4 session ID extracted from event_params"
+  },
+  {
+    "name": "session_number",
+    "type": "INTEGER",
+    "mode": "NULLABLE",
+    "description": "Sequential session number for the user"
+  },
+  {
+    "name": "user_first_touch_timestamp",
+    "type": "TIMESTAMP",
+    "mode": "NULLABLE",
+    "description": "Timestamp of the user's first event"
+  }
+]

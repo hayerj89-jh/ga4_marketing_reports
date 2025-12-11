@@ -1,0 +1,32 @@
+[
+  {
+    "name": "event_date",
+    "type": "DATE",
+    "mode": "NULLABLE",
+    "description": "Date of the session_start event (parsed from GA4 event_date)"
+  },
+  {
+    "name": "source",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Session source; defaults to '(not set)' if unavailable"
+  },
+  {
+    "name": "medium",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Session medium; defaults to '(not set)' if unavailable"
+  },
+  {
+    "name": "campaign",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Session campaign; defaults to '(not set)' if unavailable"
+  },
+  {
+    "name": "sessions",
+    "type": "INTEGER",
+    "mode": "NULLABLE",
+    "description": "Number of sessions, counted as distinct user_pseudo_id + ga_session_id combinations"
+  }
+]
